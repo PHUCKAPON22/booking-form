@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WanderSiam | Tailormade Booking Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .traveler-card { transition: all 0.3s ease; }
+        .warning-border { border-color: #ef4444 !important; }
+    </style>
+</head>
+<body class="py-12 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-bold text-slate-900 tracking-tight">WanderSiam Booking Form</h1>
+            <p class="text-slate-500 mt-2">Please provide traveler details as per passport information.</p>
+        </div>
+
+        <form id="bookingForm" class="space-y-8">
+            <div id="travelersContainer" class="space-y-6"></div>
+
+            <div class="flex flex-col sm:flex-row gap-4 items-center justify-between border-t border-slate-200 pt-8">
+                <button type="button" id="addTravelerBtn" class="flex items-center px-6 py-3 bg-white border border-slate-300 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50 transition shadow-sm">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="12 4v16m8-8H4"></path></svg>
+                    Add Traveler
+                </button>
+                
+                <button type="submit" class="w-full sm:w-auto px-10 py-3 bg-slate-900 text-white rounded-lg text-sm font-semibold hover:bg-slate-800 transition shadow-lg">
+                    Submit Booking
+                </button>
+            </div>
+        </form>
+
+        <div id="statusMessage" class="hidden mt-6 p-4 rounded-lg text-center font-medium"></div>
+    </div>
+
+    <template id="travelerTemplate">
+        <div class="traveler-card bg-white border border-slate-200 rounded-xl p-6 shadow-sm relative">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-bold text-slate-800 traveler-title">Traveler #1</h3>
+                <button type="button" class="remove-btn text-slate-400 hover:text-red-500 transition hidden">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Gender</label>
+                    <select name="gender" required class="w-full border border-slate-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-slate-900 outline-none">
+                        <option value="">Select</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">First Name</label>
+                    <input type="text" name="firstName" required placeholder="As per passport" class="w-full border border-slate-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-slate-900 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Last Name</label>
+                    <input type="text" name="lastName" required placeholder="As per passport" class="w-full border border-slate-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-slate-900 outline-none">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Date of Birth</label>
+                    <input type="date" name="dob" required class="w-full border border-slate-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-slate-900 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Nationality</label>
+                    <input type="text" name="nationality" required class="w-full border border-slate-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-slate-900 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Passport Number</label>
+                    <input type="text" name="passportNumber" required class="w-full border border-slate-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-slate-900 outline-none">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Passport Expiry Date</label>
+                    <input type="date" name="passportExpiry" required class="expiry-input w-full border border-slate-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-slate-900 outline-none">
+                    <p class="expiry-warning hidden text-red-500 text-xs mt-1 font-medium italic">Warning: Passport must be valid for at least 6 months.</p>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Food Allergies</label>
+                    <input type="text" name="allergies" placeholder="None" class="w-full border border-slate-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-slate-900 outline-none">
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        const WEBHOOK_URL = 'https://n8n-lab.greenwing.online/'; 
+        const container = document.getElementById('travelersContainer');
+        const template = document.getElementById('travelerTemplate');
+        const addBtn = document.getElementById('addTravelerBtn');
+        const form = document.getElementById('bookingForm');
+        const statusMsg = document.getElementById('statusMessage');
+
+        let travelerCount = 0;
+
+        function addTraveler() {
+            if (travelerCount >= 10) return;
+            
+            travelerCount++;
+            const clone = template.content.cloneNode(true);
+            const card = clone.querySelector('.traveler-card');
+            
+            card.querySelector('.traveler-title').textContent = `Traveler #${travelerCount}`;
+            
+            // Remove button logic
+            const removeBtn = card.querySelector('.remove-btn');
+            if (travelerCount > 1) {
+                removeBtn.classList.remove('hidden');
+                removeBtn.addEventListener('click', (e) => {
+                    e.currentTarget.closest('.traveler-card').remove();
+                    travelerCount--;
+                    reindexTravelers();
+                });
+            }
+
+            // Expiry Validation
+            const expiryInput = card.querySelector('.expiry-input');
+            const warning = card.querySelector('.expiry-warning');
+            expiryInput.addEventListener('change', () => validateExpiry(expiryInput, warning));
+
+            container.appendChild(clone);
+        }
+
+        function reindexTravelers() {
+            const cards = container.querySelectorAll('.traveler-card');
+            cards.forEach((card, index) => {
+                card.querySelector('.traveler-title').textContent = `Traveler #${index + 1}`;
+            });
+        }
+
+        function validateExpiry(input, warningElement) {
+            const expiryDate = new Date(input.value);
+            const today = new Date();
+            const sixMonthsLater = new Date(today.setMonth(today.getMonth() + 6));
+
+            if (expiryDate < sixMonthsLater) {
+                input.classList.add('warning-border');
+                warningElement.classList.remove('hidden');
+            } else {
+                input.classList.remove('warning-border');
+                warningElement.classList.add('hidden');
+            }
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const travelers = [];
+            const cards = container.querySelectorAll('.traveler-card');
+            
+            cards.forEach(card => {
+                const formData = new FormData();
+                const inputs = card.querySelectorAll('input, select');
+                const travelerObj = {};
+                inputs.forEach(input => {
+                    travelerObj[input.name] = input.value;
+                });
+                travelers.push(travelerObj);
+            });
+
+            try {
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        submissionDate: new Date().toISOString(),
+                        travelerCount: travelers.length,
+                        travelers: travelers
+                    })
+                });
+
+                if (response.ok) {
+                    showStatus('Success! Your booking data has been sent.', 'bg-green-100 text-green-800');
+                    form.reset();
+                } else {
+                    throw new Error();
+                }
+            } catch (err) {
+                showStatus('Error: Could not send data. Please try again later.', 'bg-red-100 text-red-800');
+            }
+        });
+
+        function showStatus(msg, classes) {
+            statusMsg.textContent = msg;
+            statusMsg.className = `mt-6 p-4 rounded-lg text-center font-medium ${classes}`;
+            statusMsg.classList.remove('hidden');
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
+        // Initialize first traveler
+        addBtn.addEventListener('click', addTraveler);
+        addTraveler();
+    </script>
+</body>
+</html>F
