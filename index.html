@@ -16,10 +16,10 @@
 <body class="py-10 px-4">
     <div class="max-w-4xl mx-auto">
         <div class="text-center mb-12">
-            <img src="logo.png" alt="WanderSiam Logo" class="mx-auto h-24 mb-4 object-contain">
+            <img src="https://i.ibb.co/VWv8yjRH/logo.png" alt="WanderSiam Logo" class="mx-auto h-24 mb-4 object-contain">
             <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Tailormade Booking Form</h1>
             <div class="w-20 h-1 bg-slate-900 mx-auto mt-4"></div>
-            <p class="text-slate-500 mt-4 text-lg">WanderSiam: Crafting your perfect journey.</p>
+            <p class="text-slate-500 mt-4 text-lg font-medium">WanderSiam: Crafting your perfect journey.</p>
         </div>
 
         <form id="bookingForm" class="space-y-8">
@@ -39,7 +39,7 @@
 
         <div id="statusMessage" class="hidden mt-8 p-6 rounded-xl text-center font-bold shadow-inner"></div>
         
-        <footer class="mt-16 text-center text-slate-400 text-xs">
+        <footer class="mt-16 text-center text-slate-400 text-xs italic">
             © 2024 WanderSiam Travel Solutions. All rights reserved.
         </footer>
     </div>
@@ -50,7 +50,7 @@
             
             <div class="flex justify-between items-center mb-8 pb-4 border-b border-slate-100">
                 <div class="flex items-center gap-3">
-                    <img src="logo.png" class="w-8 h-8 object-contain opacity-80" alt="icon">
+                    <img src="https://i.ibb.co/VWv8yjRH/logo.png" class="w-8 h-8 object-contain opacity-80" alt="icon">
                     <h3 class="text-xl font-black text-slate-800 traveler-title uppercase tracking-tight">Traveler #1</h3>
                 </div>
                 <button type="button" class="remove-btn text-slate-300 hover:text-red-500 transition-colors hidden">
@@ -112,7 +112,9 @@
     </template>
 
     <script>
-        const WEBHOOK_URL = 'https://n8n-lab.greenwing.online/'; // แก้เป็น URL ของคุณ
+        // แก้ไข: ตรวจสอบ URL นี้ใน n8n ให้ดีว่ามีส่วนท้าย /webhook/... หรือไม่
+        const WEBHOOK_URL = 'https://n8n-lab.greenwing.online/'; 
+        
         const container = document.getElementById('travelersContainer');
         const template = document.getElementById('travelerTemplate');
         const addBtn = document.getElementById('addTravelerBtn');
@@ -122,10 +124,7 @@
         let travelerCount = 0;
 
         function addTraveler() {
-            if (travelerCount >= 10) {
-                alert("Maximum 10 travelers allowed.");
-                return;
-            }
+            if (travelerCount >= 10) return;
             
             travelerCount++;
             const clone = template.content.cloneNode(true);
@@ -199,13 +198,13 @@
                 });
 
                 if (response.ok) {
-                    showStatus('BOOKING SENT SUCCESSFULLY! We will contact you shortly.', 'bg-emerald-100 text-emerald-800 border-2 border-emerald-200');
-                    form.innerHTML = '<div class="text-center py-20"><div class="text-6xl mb-4">✅</div><h2 class="text-2xl font-bold">Thank you for your trust!</h2><p class="text-slate-500">Your details have been received by WanderSiam.</p></div>';
+                    showStatus('BOOKING SENT SUCCESSFULLY!', 'bg-emerald-100 text-emerald-800 border-2 border-emerald-200');
+                    form.innerHTML = '<div class="text-center py-20"><div class="text-6xl mb-4">✅</div><h2 class="text-2xl font-bold">Thank you!</h2><p class="text-slate-500 text-lg">Your booking details have been sent to WanderSiam.</p></div>';
                 } else {
                     throw new Error();
                 }
             } catch (err) {
-                showStatus('SUBMISSION FAILED. Please check your connection or contact support.', 'bg-red-100 text-red-800 border-2 border-red-200');
+                showStatus('SUBMISSION FAILED. Please contact support.', 'bg-red-100 text-red-800 border-2 border-red-200');
                 submitBtn.disabled = false;
                 submitBtn.textContent = "Confirm & Send Booking";
             }
