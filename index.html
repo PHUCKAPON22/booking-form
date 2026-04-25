@@ -19,7 +19,7 @@
             <img src="https://i.ibb.co/VWv8yjRH/logo.png" alt="WanderSiam Logo" class="mx-auto h-24 mb-4 object-contain">
             <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Tailormade Booking Form</h1>
             <div class="w-20 h-1 bg-slate-900 mx-auto mt-4"></div>
-            <p class="text-slate-500 mt-4 text-lg font-medium">WanderSiam: Crafting your perfect journey.</p>
+            <p class="text-slate-500 mt-4 text-lg">WanderSiam: Crafting your perfect journey.</p>
         </div>
 
         <form id="bookingForm" class="space-y-8">
@@ -39,8 +39,8 @@
 
         <div id="statusMessage" class="hidden mt-8 p-6 rounded-xl text-center font-bold shadow-inner"></div>
         
-        <footer class="mt-16 text-center text-slate-400 text-xs italic">
-            © 2024 WanderSiam Travel Solutions. All rights reserved.
+        <footer class="mt-16 text-center text-slate-400 text-xs uppercase tracking-widest font-medium">
+            © 2024 WanderSiam Travel Solutions.
         </footer>
     </div>
 
@@ -66,15 +66,14 @@
                         <option value="Mr.">Mr.</option>
                         <option value="Ms.">Ms.</option>
                         <option value="Mrs.">Mrs.</option>
-                        <option value="Other">Other</option>
                     </select>
                 </div>
                 <div class="md:col-span-2">
-                    <label class="block text-xs font-bold text-slate-400 uppercase mb-2">First Name (As per Passport)</label>
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-2">First Name</label>
                     <input type="text" name="firstName" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-slate-900 outline-none">
                 </div>
                 <div class="md:col-span-3">
-                    <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Last Name (As per Passport)</label>
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Last Name</label>
                     <input type="text" name="lastName" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-slate-900 outline-none">
                 </div>
             </div>
@@ -100,21 +99,21 @@
                     <input type="date" name="passportExpiry" required class="expiry-input w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-slate-900 outline-none">
                     <div class="expiry-warning hidden flex items-center mt-2 text-red-600 text-xs font-bold">
                         <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-                        CRITICAL: PASSPORT EXPIRES IN LESS THAN 6 MONTHS
+                        CRITICAL: EXPIRES IN LESS THAN 6 MONTHS
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Food Allergies / Requests</label>
-                    <input type="text" name="allergies" placeholder="e.g. No seafood, Peanut allergy" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-slate-900 outline-none">
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Food Allergies</label>
+                    <input type="text" name="allergies" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-slate-900 outline-none">
                 </div>
             </div>
         </div>
     </template>
 
     <script>
-        // แก้ไข: ตรวจสอบ URL นี้ใน n8n ให้ดีว่ามีส่วนท้าย /webhook/... หรือไม่
-        const WEBHOOK_URL = 'https://n8n-lab.greenwing.online/'; 
-        
+        // แก้ไข: ใส่ URL Webhook จาก n8n ให้เต็มรูปแบบ (ตัวอย่าง: https://n8n.domain.com/webhook/uuid)
+        const WEBHOOK_URL = 'https://n8n-lab.greenwing.online/webhook/your-id-here'; 
+
         const container = document.getElementById('travelersContainer');
         const template = document.getElementById('travelerTemplate');
         const addBtn = document.getElementById('addTravelerBtn');
@@ -125,24 +124,18 @@
 
         function addTraveler() {
             if (travelerCount >= 10) return;
-            
             travelerCount++;
             const clone = template.content.cloneNode(true);
             const card = clone.querySelector('.traveler-card');
-            
             card.querySelector('.traveler-title').textContent = `Traveler #${travelerCount}`;
             
             const removeBtn = card.querySelector('.remove-btn');
             if (travelerCount > 1) {
                 removeBtn.classList.remove('hidden');
                 removeBtn.addEventListener('click', (e) => {
-                    const cardToRemove = e.currentTarget.closest('.traveler-card');
-                    cardToRemove.style.opacity = '0';
-                    setTimeout(() => {
-                        cardToRemove.remove();
-                        travelerCount--;
-                        reindexTravelers();
-                    }, 300);
+                    e.currentTarget.closest('.traveler-card').remove();
+                    travelerCount--;
+                    reindexTravelers();
                 });
             }
 
@@ -175,36 +168,32 @@
             e.preventDefault();
             const submitBtn = form.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
-            submitBtn.textContent = "SENDING DATA...";
+            submitBtn.textContent = "SENDING...";
 
             const travelers = [];
             container.querySelectorAll('.traveler-card').forEach(card => {
-                const travelerObj = {};
-                card.querySelectorAll('input, select').forEach(input => {
-                    travelerObj[input.name] = input.value;
-                });
-                travelers.push(travelerObj);
+                const data = {};
+                card.querySelectorAll('input, select').forEach(i => data[i.name] = i.value);
+                travelers.push(data);
             });
 
             try {
-                const response = await fetch(WEBHOOK_URL, {
+                const res = await fetch(WEBHOOK_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        bookingDate: new Date().toLocaleString('en-GB'),
-                        totalTravelers: travelers.length,
-                        travelerDetails: travelers
+                        date: new Date().toLocaleString(),
+                        total: travelers.length,
+                        data: travelers
                     })
                 });
 
-                if (response.ok) {
-                    showStatus('BOOKING SENT SUCCESSFULLY!', 'bg-emerald-100 text-emerald-800 border-2 border-emerald-200');
-                    form.innerHTML = '<div class="text-center py-20"><div class="text-6xl mb-4">✅</div><h2 class="text-2xl font-bold">Thank you!</h2><p class="text-slate-500 text-lg">Your booking details have been sent to WanderSiam.</p></div>';
-                } else {
-                    throw new Error();
-                }
+                if (res.ok) {
+                    showStatus('SUCCESS! DATA SENT.', 'bg-emerald-100 text-emerald-800 border-2 border-emerald-200');
+                    form.innerHTML = '<div class="text-center py-20"><h2 class="text-2xl font-bold">Thank you!</h2><p>Received by WanderSiam.</p></div>';
+                } else { throw new Error(); }
             } catch (err) {
-                showStatus('SUBMISSION FAILED. Please contact support.', 'bg-red-100 text-red-800 border-2 border-red-200');
+                showStatus('FAILED. CHECK URL.', 'bg-red-100 text-red-800 border-2 border-red-200');
                 submitBtn.disabled = false;
                 submitBtn.textContent = "Confirm & Send Booking";
             }
@@ -212,9 +201,8 @@
 
         function showStatus(msg, classes) {
             statusMsg.textContent = msg;
-            statusMsg.className = `mt-8 p-6 rounded-xl text-center font-bold shadow-inner ${classes}`;
+            statusMsg.className = `mt-8 p-6 rounded-xl text-center font-bold ${classes}`;
             statusMsg.classList.remove('hidden');
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         }
 
         addTraveler();
