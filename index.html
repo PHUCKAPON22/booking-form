@@ -156,7 +156,9 @@
     </template>
 
     <script>
-        const WEBHOOK_URL = 'https://n8n-lab.greenwing.online/webhook/booking'; 
+        // แก้ไข Webhook URL ให้ตรงตามที่กำหนด
+        const WEBHOOK_URL = 'https://n8n-lab.greenwing.online/webhook/Booking'; 
+
         const container = document.getElementById('travelersContainer');
         const template = document.getElementById('travelerTemplate');
         const addBtn = document.getElementById('addTravelerBtn');
@@ -228,6 +230,7 @@
             try {
                 const res = await fetch(WEBHOOK_URL, {
                     method: 'POST',
+                    mode: 'cors', // เพิ่มโหมด CORS เพื่อความปลอดภัยในการรับส่งข้อมูล
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         submittedAt: new Date().toISOString(),
@@ -238,10 +241,11 @@
 
                 if (res.ok) {
                     showStatus('SUCCESSFULLY SENT', 'bg-slate-900 text-white');
-                    form.innerHTML = '<div class="text-center py-20"><h2 class="text-sm font-800 uppercase tracking-widest">Thank you!</h2><p class="text-slate-400 text-xs mt-2 uppercase">Details received by WanderSiam.</p></div>';
+                    form.innerHTML = '<div class="text-center py-20"><h2 class="text-sm font-800 uppercase tracking-widest text-slate-900">Thank you!</h2><p class="text-slate-400 text-xs mt-2 uppercase">Details received by WanderSiam.</p></div>';
                 } else { throw new Error(); }
             } catch (err) {
-                showStatus('ERROR. PLEASE RETRY.', 'bg-red-50 text-red-600 border border-red-100');
+                // หากยังขึ้น Error ให้ตรวจสอบการตั้งค่า CORS ใน Webhook Node ของ n8n
+                showStatus('CONNECTION ERROR. PLEASE CHECK CORS IN N8N.', 'bg-red-50 text-red-600 border border-red-100');
                 submitBtn.disabled = false;
                 submitBtn.textContent = "Confirm Booking";
             }
