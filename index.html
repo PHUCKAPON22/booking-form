@@ -3,129 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WanderSiam | Agentic Booking Form</title>
+    <title>WanderSiam | Tailormade Booking Form</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
-        .traveler-card { animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1); transition: all 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .input-focus { transition: all 0.2s ease; }
-        .input-focus:focus { transform: translateY(-1px); box-shadow: 0 4px 12px -2px rgba(0,0,0,0.05); }
-        .success-tick { animation: scaleIn 0.3s ease-out; }
-        @keyframes scaleIn { from { transform: scale(0); } to { transform: scale(1); } }
-        /* Custom Scrollbar for better UX */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .traveler-card { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .input-focus { outline: none; transition: all 0.2s; }
+        .input-focus:focus { border-color: #0f172a; ring: 2px; ring-color: #0f172a; }
+        .warning-border { border: 2px solid #ef4444 !important; background-color: #fef2f2; }
     </style>
 </head>
-<body class="py-12 px-4">
-    <div class="max-w-3xl mx-auto">
-        <div class="text-center mb-12">
-            <img src="https://i.ibb.co/VWv8yjRH/logo.png" alt="WanderSiam Logo" class="mx-auto h-20 mb-6 object-contain hover:scale-105 transition-transform">
-            <h1 class="text-4xl font-900 text-slate-900 tracking-tight mb-2">Traveler Information</h1>
-            <p class="text-slate-500 font-medium uppercase tracking-widest text-sm">Direct Booking System</p>
-            <div class="w-16 h-1.5 bg-emerald-500 mx-auto mt-4 rounded-full"></div>
+<body class="py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-10">
+            <img src="https://i.ibb.co/VWv8yjRH/logo.png" alt="WanderSiam Logo" class="mx-auto h-24 mb-4 object-contain">
+            <h1 class="text-4xl font-black text-slate-900 tracking-tighter uppercase">Booking Form</h1>
+            <div class="w-16 h-1.5 bg-slate-900 mx-auto mt-4"></div>
         </div>
 
-        <form id="bookingForm" class="space-y-10">
-            <div id="travelersContainer" class="space-y-10">
+        <form id="bookingForm" class="space-y-8">
+            <div class="bg-slate-900 text-white rounded-2xl p-8 shadow-xl">
+                <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    ARRIVAL & DEPARTURE DETAILS
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase mb-2 text-white">Date of Arrival in Thailand</label>
+                        <input type="date" name="arrivalDate" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-sm text-white focus:border-emerald-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase mb-2 text-white">Date of Departure from Thailand</label>
+                        <input type="date" name="departureDate" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-sm text-white focus:border-emerald-500 outline-none">
+                    </div>
                 </div>
+            </div>
+
+            <div id="travelersContainer" class="space-y-8"></div>
 
             <div class="flex flex-col sm:flex-row gap-4 items-center justify-between border-t border-slate-200 pt-10">
-                <button type="button" id="addTravelerBtn" class="group flex items-center px-8 py-4 bg-white border-2 border-slate-900 rounded-2xl text-sm font-bold text-slate-900 hover:bg-slate-900 hover:text-white transition-all shadow-sm active:scale-95">
-                    <svg class="w-5 h-5 mr-2 group-hover:rotate-90 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"></path></svg>
+                <button type="button" id="addTravelerBtn" class="flex items-center px-8 py-4 bg-white border-2 border-slate-900 rounded-xl text-sm font-black text-slate-900 hover:bg-slate-900 hover:text-white transition-all active:scale-95">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="12 4v16m8-8H4"></path></svg>
                     ADD TRAVELER
                 </button>
                 
-                <button type="submit" id="submitBtn" class="w-full sm:w-auto px-16 py-4 bg-emerald-600 text-white rounded-2xl text-sm font-black hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-200 active:scale-95 uppercase tracking-widest">
+                <button type="submit" class="w-full sm:w-auto px-12 py-4 bg-emerald-600 text-white rounded-xl text-sm font-black hover:bg-emerald-700 transition-all shadow-lg active:scale-95 uppercase tracking-widest">
                     Confirm Booking
                 </button>
             </div>
         </form>
 
-        <div id="statusMessage" class="hidden mt-8 p-6 rounded-2xl text-center font-bold shadow-lg"></div>
+        <div id="statusMessage" class="hidden mt-8 p-6 rounded-xl text-center font-bold"></div>
         
-        <footer class="mt-20 text-center">
-            <p class="text-slate-400 text-[10px] uppercase tracking-[0.3em] font-bold">WanderSiam Travel Solutions &bull; Secure Data Transmission</p>
+        <footer class="mt-16 text-center text-slate-400 text-xs font-bold uppercase tracking-widest">
+            © 2026 WanderSiam Travel Solutions.
         </footer>
     </div>
 
     <template id="travelerTemplate">
-        <div class="traveler-card bg-white border border-slate-200 rounded-[2rem] p-8 shadow-sm relative group">
-            <div class="absolute top-0 left-0 w-full h-2 bg-slate-100 group-hover:bg-emerald-500 transition-colors rounded-t-full"></div>
+        <div class="traveler-card bg-white border border-slate-200 rounded-2xl p-8 shadow-sm relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-2 h-full bg-slate-900"></div>
             
-            <div class="flex justify-between items-center mb-8">
-                <div class="flex items-center gap-4">
-                    <span class="flex items-center justify-center w-10 h-10 bg-slate-900 text-white rounded-xl font-black text-sm index-label">01</span>
-                    <h3 class="text-xl font-900 text-slate-800 uppercase tracking-tight traveler-title">Main Traveler</h3>
+            <div class="flex justify-between items-center mb-8 pb-4 border-b border-slate-100">
+                <div class="flex items-center gap-3">
+                    <img src="https://i.ibb.co/VWv8yjRH/logo.png" class="w-8 h-8 object-contain" alt="icon">
+                    <h3 class="text-lg font-black text-slate-900 traveler-title uppercase tracking-tight">Traveler #1</h3>
                 </div>
-                <button type="button" class="remove-btn p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-all hidden">
+                <button type="button" class="remove-btn text-slate-300 hover:text-red-500 transition-colors hidden">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                 </button>
             </div>
 
-            <div class="bg-slate-50/50 rounded-2xl p-6 mb-6">
-                <div class="grid grid-cols-1 md:grid-cols-6 gap-5">
-                    <div class="md:col-span-1">
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Title</label>
-                        <select name="gender" required class="input-focus w-full bg-white border border-slate-200 rounded-xl p-3.5 text-sm outline-none focus:border-emerald-500">
-                            <option value="Mr.">Mr.</option>
-                            <option value="Ms.">Ms.</option>
-                            <option value="Mrs.">Mrs.</option>
+            <div class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                    <div class="md:col-span-2">
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Title</label>
+                        <select name="title" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm input-focus">
+                            <option value="">--</option>
+                            <option value="Mr">Mr</option>
+                            <option value="Mrs">Mrs</option>
+                            <option value="Mstr">Mstr</option>
+                            <option value="Ms">Ms</option>
                         </select>
                     </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">First Name</label>
-                        <input type="text" name="firstName" placeholder="e.g. John" required class="input-focus w-full bg-white border border-slate-200 rounded-xl p-3.5 text-sm outline-none focus:border-emerald-500">
+                    <div class="md:col-span-5">
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">First Name(s) according to passport</label>
+                        <input type="text" name="firstName" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm input-focus">
+                    </div>
+                    <div class="md:col-span-5">
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Last Name according to passport</label>
+                        <input type="text" name="lastName" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm input-focus">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Date of Birth</label>
+                        <input type="date" name="dob" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm input-focus">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Nationality</label>
+                        <input type="text" name="nationality" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm input-focus">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Passport Number</label>
+                        <input type="text" name="passportNumber" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm input-focus">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Expiry Date Passport</label>
+                        <input type="date" name="passportExpiry" required class="expiry-input w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm input-focus">
+                        <div class="expiry-warning hidden text-[10px] text-red-600 font-bold mt-1 uppercase">Passport expires < 6 months</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Length in CM</label>
+                        <input type="number" name="lengthCm" placeholder="e.g. 175" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm input-focus">
                     </div>
                     <div class="md:col-span-3">
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 text-right">Last Name</label>
-                        <input type="text" name="lastName" placeholder="e.g. Smith" required class="input-focus w-full bg-white border border-slate-200 rounded-xl p-3.5 text-sm outline-none focus:border-emerald-500">
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Food allergies/needs</label>
+                        <input type="text" name="allergies" placeholder="e.g. vegetarian, allergic for peanuts" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm input-focus">
                     </div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 px-2">
-                <div class="relative group/input">
-                    <label class="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">
-                        Passport Number
-                        <span class="tick hidden text-emerald-500 success-tick">✓ Valid Format</span>
-                    </label>
-                    <input type="text" name="passportNumber" required placeholder="A1234567" 
-                           class="passport-input input-focus w-full bg-white border border-slate-200 rounded-xl p-3.5 text-sm outline-none focus:border-emerald-500 uppercase">
-                </div>
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Nationality</label>
-                    <div class="relative">
-                        <input type="text" name="nationality" required placeholder="United States" 
-                               class="nationality-input input-focus w-full bg-white border border-slate-200 rounded-xl p-3.5 text-sm outline-none focus:border-emerald-500">
-                        <label class="same-as-first hidden absolute -top-9 right-0 items-center gap-1.5 cursor-pointer text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md border border-emerald-100">
-                            <input type="checkbox" class="copy-nationality"> Same as #1
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 px-2">
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Passport Expiry</label>
-                    <input type="date" name="passportExpiry" required class="expiry-input input-focus w-full bg-white border border-slate-200 rounded-xl p-3.5 text-sm outline-none focus:border-emerald-500">
-                    <div class="expiry-warning hidden flex items-center mt-2 text-red-500 text-[10px] font-black uppercase tracking-tighter italic animate-pulse">
-                        ⚠️ EXPIRES IN < 6 MONTHS (REMARKS ADDED)
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 text-right">Food Allergies / Needs</label>
-                    <input type="text" name="allergies" placeholder="e.g. Peanuts, Halal, None" class="input-focus w-full bg-slate-50/50 border border-slate-100 rounded-xl p-3.5 text-sm outline-none focus:border-emerald-500">
                 </div>
             </div>
         </div>
     </template>
 
     <script>
-        const WEBHOOK_URL = 'https://n8n-lab.greenwing.online/webhook/Booking'; 
+        // Update this to your n8n Production Webhook URL
+        const WEBHOOK_URL = 'https://n8n-lab.greenwing.online/webhook/booking'; 
+
         const container = document.getElementById('travelersContainer');
         const template = document.getElementById('travelerTemplate');
         const addBtn = document.getElementById('addTravelerBtn');
@@ -137,99 +147,60 @@
         function addTraveler() {
             if (travelerCount >= 10) return;
             travelerCount++;
-            
             const clone = template.content.cloneNode(true);
             const card = clone.querySelector('.traveler-card');
-            const titleEl = card.querySelector('.traveler-title');
-            const indexEl = card.querySelector('.index-label');
+            card.querySelector('.traveler-title').textContent = `Traveler #${travelerCount}`;
             
-            indexEl.textContent = travelerCount.toString().padStart(2, '0');
-            titleEl.textContent = travelerCount === 1 ? 'Main Traveler' : `Traveler #${travelerCount}`;
-
-            // Show Copy Nationality checkbox for travelers > 1
+            const removeBtn = card.querySelector('.remove-btn');
             if (travelerCount > 1) {
-                card.querySelector('.same-as-first').classList.remove('hidden', 'flex');
-                card.querySelector('.same-as-first').classList.add('flex');
-                card.querySelector('.remove-btn').classList.remove('hidden');
-                
-                card.querySelector('.copy-nationality').addEventListener('change', (e) => {
-                    if (e.target.checked) {
-                        const firstNationality = container.querySelector('.nationality-input').value;
-                        card.querySelector('.nationality-input').value = firstNationality;
-                    }
+                removeBtn.classList.remove('hidden');
+                removeBtn.addEventListener('click', (e) => {
+                    e.currentTarget.closest('.traveler-card').remove();
+                    travelerCount--;
+                    reindexTravelers();
                 });
             }
 
-            // Real-time Validation for Passport
-            const passInput = card.querySelector('.passport-input');
-            const tick = card.querySelector('.tick');
-            passInput.addEventListener('input', () => {
-                const val = passInput.value.trim();
-                if (val.length >= 6 && /^[a-z0-9]+$/i.test(val)) {
-                    tick.classList.remove('hidden');
-                } else {
-                    tick.classList.add('hidden');
-                }
-            });
-
-            // Passport Expiry Logic (Soft Warning)
             const expiryInput = card.querySelector('.expiry-input');
             const warning = card.querySelector('.expiry-warning');
             expiryInput.addEventListener('change', () => {
                 const expiry = new Date(expiryInput.value);
                 const limit = new Date();
                 limit.setMonth(limit.getMonth() + 6);
-                
                 if (expiry < limit) {
-                    expiryInput.classList.add('border-red-500', 'bg-red-50');
+                    expiryInput.classList.add('warning-border');
                     warning.classList.remove('hidden');
-                    card.dataset.expiryRisk = "true";
                 } else {
-                    expiryInput.classList.remove('border-red-500', 'bg-red-50');
+                    expiryInput.classList.remove('warning-border');
                     warning.classList.add('hidden');
-                    card.dataset.expiryRisk = "false";
                 }
             });
 
-            // Remove logic
-            card.querySelector('.remove-btn').addEventListener('click', () => {
-                card.remove();
-                travelerCount--;
-                reindexTravelers();
-            });
-
             container.appendChild(clone);
-            
-            // Auto-scroll & Focus
-            if (travelerCount > 1) {
-                const newCard = container.lastElementChild;
-                newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                setTimeout(() => newCard.querySelector('input').focus(), 600);
-            }
         }
 
         function reindexTravelers() {
-            container.querySelectorAll('.traveler-card').forEach((card, idx) => {
-                const currentIdx = idx + 1;
-                card.querySelector('.index-label').textContent = currentIdx.toString().padStart(2, '0');
-                card.querySelector('.traveler-title').textContent = currentIdx === 1 ? 'Main Traveler' : `Traveler #${currentIdx}`;
+            const cards = container.querySelectorAll('.traveler-card');
+            cards.forEach((card, index) => {
+                card.querySelector('.traveler-title').textContent = `Traveler #${index + 1}`;
             });
         }
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.innerHTML = '<span class="animate-pulse">Processing...</span>';
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = "SENDING...";
+
+            const tripData = {
+                arrivalDate: form.querySelector('[name="arrivalDate"]').value,
+                departureDate: form.querySelector('[name="departureDate"]').value
+            };
 
             const travelers = [];
-            container.querySelectorAll('.traveler-card').forEach((card, idx) => {
+            container.querySelectorAll('.traveler-card').forEach(card => {
                 const data = {};
-                card.querySelectorAll('input, select').forEach(i => {
-                    if (i.type !== 'checkbox') data[i.name] = i.value;
-                });
-                data.is_expired_risk = card.dataset.expiryRisk === "true";
-                data.id = idx + 1;
+                card.querySelectorAll('input, select').forEach(i => data[i.name] = i.value);
                 travelers.push(data);
             });
 
@@ -238,33 +209,30 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        system: "WanderSiam_D2C",
-                        submission_date: new Date().toISOString(),
-                        total: travelers.length,
+                        timestamp: new Date().toLocaleString(),
+                        trip: tripData,
                         travelers: travelers
                     })
                 });
 
                 if (res.ok) {
-                    statusMsg.innerHTML = "✨ SUCCESS! DATA SECURED.";
-                    statusMsg.className = "mt-8 p-8 rounded-[2rem] bg-emerald-900 text-white text-center font-black animate-bounce shadow-2xl";
-                    statusMsg.classList.remove('hidden');
-                    form.classList.add('opacity-0', 'pointer-events-none');
-                    setTimeout(() => {
-                        form.innerHTML = `<div class="text-center py-10"><h2 class="text-3xl font-black mb-4">Thank you!</h2><p class="text-slate-500">Your details have been recorded for the team.</p></div>`;
-                        form.classList.remove('opacity-0');
-                    }, 500);
+                    showStatus('BOOKING SUBMITTED SUCCESSFULLY!', 'bg-emerald-100 text-emerald-800 border-2 border-emerald-200');
+                    form.innerHTML = '<div class="text-center py-20"><h2 class="text-3xl font-black text-slate-900">THANK YOU!</h2><p class="text-slate-500 mt-2">WanderSiam has received your booking details.</p></div>';
                 } else { throw new Error(); }
             } catch (err) {
-                statusMsg.textContent = "CONNECTION ERROR. PLEASE TRY AGAIN.";
-                statusMsg.className = "mt-8 p-6 rounded-2xl bg-red-100 text-red-700 text-center font-bold";
-                statusMsg.classList.remove('hidden');
-                btn.disabled = false;
-                btn.textContent = "Confirm Booking";
+                showStatus('CONNECTION ERROR. PLEASE TRY AGAIN.', 'bg-red-100 text-red-800 border-2 border-red-200');
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Confirm Booking";
             }
         });
 
-        // Initialize first traveler
+        function showStatus(msg, classes) {
+            statusMsg.textContent = msg;
+            statusMsg.className = `mt-8 p-6 rounded-xl text-center font-bold ${classes}`;
+            statusMsg.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         addTraveler();
         addBtn.addEventListener('click', addTraveler);
     </script>
