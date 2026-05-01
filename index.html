@@ -56,17 +56,59 @@
 
         <form id="bookingForm" class="space-y-6">
             
-            <div class="form-card p-6 space-y-5">
-                <h2 class="text-xs font-800 uppercase tracking-widest text-slate-400 border-b pb-3 mb-4">Arrival & Departure</h2>
+            <div class="form-card p-6 space-y-6">
+                <h2 class="text-xs font-800 uppercase tracking-widest text-slate-400 border-b pb-3 mb-2">Trip & Contact Details</h2>
                 
+                <!-- Contact Email (Optional) -->
                 <div>
-                    <label class="label-text">Arrival Date in Thailand</label>
-                    <input type="date" name="arrivalDate" required class="input-field">
+                    <label class="label-text">Contact Email (Optional)</label>
+                    <input type="email" name="contactEmail" placeholder="e.g. client@email.com" class="input-field">
                 </div>
 
-                <div>
-                    <label class="label-text">Departure Date from Thailand</label>
-                    <input type="date" name="departureDate" required class="input-field">
+                <!-- Arrival Info -->
+                <div class="space-y-4 pt-4 border-t border-slate-100">
+                    <p class="text-[10px] font-bold text-slate-800 uppercase border-l-2 border-slate-900 pl-2">Arrival Info</p>
+                    <div>
+                        <label class="label-text">Arrival Date in Thailand</label>
+                        <input type="date" name="arrivalDate" required class="input-field">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="label-text">Arrival flight number</label>
+                            <input type="text" name="arrivalFlight" required placeholder="e.g. EK376" class="input-field">
+                        </div>
+                        <div>
+                            <label class="label-text">Arrival airport</label>
+                            <input type="text" name="arrivalAirport" required placeholder="e.g. BKK" class="input-field">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="label-text">Arrival time</label>
+                        <input type="time" name="arrivalTime" required class="input-field">
+                    </div>
+                </div>
+
+                <!-- Departure Info -->
+                <div class="space-y-4 pt-6 border-t border-slate-100">
+                    <p class="text-[10px] font-bold text-slate-800 uppercase border-l-2 border-slate-900 pl-2">Departure Info</p>
+                    <div>
+                        <label class="label-text">Departure Date from Thailand</label>
+                        <input type="date" name="departureDate" required class="input-field">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="label-text">Departure flight number</label>
+                            <input type="text" name="departureFlight" required placeholder="e.g. EK377" class="input-field">
+                        </div>
+                        <div>
+                            <label class="label-text">Departure airport</label>
+                            <input type="text" name="departureAirport" required placeholder="e.g. BKK" class="input-field">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="label-text">Departure time</label>
+                        <input type="time" name="departureTime" required class="input-field">
+                    </div>
                 </div>
             </div>
 
@@ -156,7 +198,6 @@
     </template>
 
     <script>
-        // แก้ไข Webhook URL ให้ตรงตามที่กำหนด
         const WEBHOOK_URL = 'https://n8n-lab.greenwing.online/webhook/Booking'; 
 
         const container = document.getElementById('travelersContainer');
@@ -215,9 +256,17 @@
             submitBtn.disabled = true;
             submitBtn.textContent = "SENDING...";
 
+            // Update: ดึงข้อมูลจากฟิลด์ใหม่ทั้งหมด
             const tripData = {
+                contactEmail: form.querySelector('[name="contactEmail"]').value,
                 arrivalDate: form.querySelector('[name="arrivalDate"]').value,
-                departureDate: form.querySelector('[name="departureDate"]').value
+                arrivalFlight: form.querySelector('[name="arrivalFlight"]').value,
+                arrivalAirport: form.querySelector('[name="arrivalAirport"]').value,
+                arrivalTime: form.querySelector('[name="arrivalTime"]').value,
+                departureDate: form.querySelector('[name="departureDate"]').value,
+                departureFlight: form.querySelector('[name="departureFlight"]').value,
+                departureAirport: form.querySelector('[name="departureAirport"]').value,
+                departureTime: form.querySelector('[name="departureTime"]').value
             };
 
             const travelers = [];
@@ -230,7 +279,7 @@
             try {
                 const res = await fetch(WEBHOOK_URL, {
                     method: 'POST',
-                    mode: 'cors', // เพิ่มโหมด CORS เพื่อความปลอดภัยในการรับส่งข้อมูล
+                    mode: 'cors',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         submittedAt: new Date().toISOString(),
@@ -244,7 +293,6 @@
                     form.innerHTML = '<div class="text-center py-20"><h2 class="text-sm font-800 uppercase tracking-widest text-slate-900">Thank you!</h2><p class="text-slate-400 text-xs mt-2 uppercase">Details received by WanderSiam.</p></div>';
                 } else { throw new Error(); }
             } catch (err) {
-                // หากยังขึ้น Error ให้ตรวจสอบการตั้งค่า CORS ใน Webhook Node ของ n8n
                 showStatus('CONNECTION ERROR. PLEASE CHECK CORS IN N8N.', 'bg-red-50 text-red-600 border border-red-100');
                 submitBtn.disabled = false;
                 submitBtn.textContent = "Confirm Booking";
