@@ -65,6 +65,12 @@
                     <input type="email" name="contactEmail" placeholder="e.g. client@email.com" class="input-field">
                 </div>
 
+                <!-- WhatsApp Contact Number (Including Country Code) -->
+                <div>
+                    <label class="label-text">WhatsApp Contact Number (Including Country Code)</label>
+                    <input type="tel" name="whatsappNumber" placeholder="e.g. +66 81 234 5678" class="input-field">
+                </div>
+
                 <!-- Arrival Info -->
                 <div class="space-y-4 pt-4 border-t border-slate-100">
                     <p class="text-[10px] font-bold text-slate-800 uppercase border-l-2 border-slate-900 pl-2">Arrival Info</p>
@@ -128,7 +134,7 @@
         <div id="statusMessage" class="hidden mt-6 p-4 rounded-lg text-center text-xs font-bold uppercase tracking-wider"></div>
         
         <footer class="mt-12 text-center text-slate-300 text-[10px] font-bold uppercase tracking-widest">
-            © 2026 WanderSiam Travel Solutions
+            Â© 2026 WanderSiam Travel Solutions
         </footer>
     </div>
 
@@ -256,9 +262,10 @@
             submitBtn.disabled = true;
             submitBtn.textContent = "SENDING...";
 
-            // Update: ดึงข้อมูลจากฟิลด์ใหม่ทั้งหมด
+            // Update: à¸”à¸¶à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸ˆà¸²à¸à¸Ÿà¸´à¸¥à¸”à¹Œà¹ƒà¸«à¸¡à¹ˆà¸—à¸±à¹‰à¸‡à¸«à¸¡à¸”
             const tripData = {
                 contactEmail: form.querySelector('[name="contactEmail"]').value,
+                whatsappNumber: form.querySelector('[name="whatsappNumber"]').value,
                 arrivalDate: form.querySelector('[name="arrivalDate"]').value,
                 arrivalFlight: form.querySelector('[name="arrivalFlight"]').value,
                 arrivalAirport: form.querySelector('[name="arrivalAirport"]').value,
